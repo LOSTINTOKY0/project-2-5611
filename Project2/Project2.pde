@@ -1,23 +1,8 @@
 import java.util.ArrayList;
 
-//PDEs and Integration
-//CSCI 5611 Swinging Rope [Exercise]
-//Stephen J. Guy <sjguy@umn.edu>
-
 //NOTE: The simulation starts paused, press "space" to unpause
 
 //TODO:
-
-//  6. Add friction so that the rope eventually stops. An easy friction model is a scaled force 
-//     in the opposite direction of a nodes current velocity. 
-
-
-
-//Challenge:
-//  - Set the top of the rope to be wherever the user’s mouse is, and allow the user to drag the rope around the scene.
-//  - Keep the top of the rope fixed, but allow the user to click and drag one of the balls of the rope to move it around.
-//  - Place a medium-sized, static 2D ball in the scene, have the nodes on the rope experience a “bounce” force if they collide with this ball.
-
 
 //Create Window
 String windowTitle = "Swinging Rope";
@@ -32,12 +17,12 @@ float floor = 500;
 int strings =19;
 vec3 gravity = new vec3(0,400,0);
 float radius = 5;
-vec3 stringTop = new vec3(20,50,0);
+vec3 stringTop = new vec3(20,50,30);
 float restLen = 15;
 float mass = 1.0; //
-float k = 200; //TRY-IT: How does changing k affect resting length of the rope?
-float kv = 30; //TRY-IT: How big can you make kv?
-float friction = -.0005;
+float k = 2500; //TRY-IT: How does changing k affect resting length of the rope?
+float kv = 50; //TRY-IT: How big can you make kv?
+float friction = -.005;
 //Initial positions and velocities of masses
 static int maxNodes = 10;
 ArrayList<vec3[]> pos= new ArrayList<vec3[]>();
@@ -57,8 +42,9 @@ vel.add(new vec3[maxNodes]);
   for (int j = 0; j < strings; j++){
      for (int i = 0; i < numNodes; i++){
     pos.get(j)[i] = new vec3(0,0,0);
-    pos.get(j)[i].x = stringTop.x*(j+1) + i;
+    pos.get(j)[i].x = stringTop.x+ 10*(j+1) + i;
     pos.get(j)[i].y = stringTop.y + 8*i; //Make each node a little lower
+    pos.get(j)[i].z = stringTop.z + 8*(j+1); //Make each node a little lower
     vel.get(j)[i] = new vec3(0,0,0);
      }
 }
@@ -146,8 +132,8 @@ update(1/(20*frameRate));
     for (int j = 0; j < strings; j++){
   for (int i = 0; i < numNodes-1; i++){
     pushMatrix();
-    line(pos.get(j)[i].x,pos.get(j)[i].y,pos.get(j)[i+1].x,pos.get(j)[i+1].y);
-    translate(pos.get(j)[i+1].x,pos.get(j)[i+1].y);
+    line(pos.get(j)[i].x,pos.get(j)[i].y, pos.get(j)[i+1].z,pos.get(j)[i+1].x,pos.get(j)[i+1].y,pos.get(j)[i+1].z);
+    translate(pos.get(j)[i+1].x,pos.get(j)[i+1].y,pos.get(j)[i+1].z);
     sphere(radius);
     popMatrix();
   }
