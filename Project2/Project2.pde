@@ -22,7 +22,7 @@ float restLen = 15;
 float mass = 1.0; //
 float k = 2500; //TRY-IT: How does changing k affect resting length of the rope?
 float kv = 50; //TRY-IT: How big can you make kv?
-float friction = -.005;
+float friction = -.0005;
 //Initial positions and velocities of masses
 static int maxNodes = 100;
 ArrayList<vec3[]> pos= new ArrayList<vec3[]>();
@@ -89,10 +89,10 @@ void update(float dt){
     if (pos.get(j)[i].y+radius > floor){
       vel.get(j)[i].y *= -.9;
       pos.get(j)[i].y = floor - radius;
-    } if(pos.get(j)[i].distanceTo(spherePoint) < radius+sphereRad){
+    } if(pos.get(j)[i].distanceTo(spherePoint) < sphereRad){
       print("Reached\n");
-    vel.get(j)[i] = pos.get(j)[i].minus(spherePoint).times(2);
-    pos.get(j)[i] = pos.get(j)[i].minus(spherePoint);
+    vel.get(j)[i] = pos.get(j)[i].minus(spherePoint);
+   // pos.get(j)[i] = pos.get(j)[i].minus(spherePoint);
    
     }
       
