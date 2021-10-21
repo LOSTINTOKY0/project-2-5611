@@ -84,5 +84,9 @@ vec3 cross( vec3 b){
  vec3 minus( vec3 b){
   return new vec3(this.x-b.x, this.y-b.y, this.z-b.z);
 }
+float distanceTo(vec3 b){
+return sqrt(pow(this.x-b.x,2) + pow(this.x - b.y,2)+ pow(this.z - b.z,2));
+
+}
 
 }

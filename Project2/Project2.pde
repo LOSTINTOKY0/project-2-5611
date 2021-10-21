@@ -16,7 +16,7 @@ void setup() {
 float floor = 500;
 int strings =19;
 vec3 gravity = new vec3(0,400,0);
-float radius = 5;
+float radius = 2;
 vec3 stringTop = new vec3(20,50,30);
 float restLen = 15;
 float mass = 1.0; //
@@ -24,14 +24,13 @@ float k = 2500; //TRY-IT: How does changing k affect resting length of the rope?
 float kv = 50; //TRY-IT: How big can you make kv?
 float friction = -.005;
 //Initial positions and velocities of masses
-static int maxNodes = 10;
+static int maxNodes = 100;
 ArrayList<vec3[]> pos= new ArrayList<vec3[]>();
 ArrayList<vec3[]> vel = new ArrayList<vec3[]>();
 ArrayList<vec3[]> acc = new ArrayList<vec3[]>();
-
-
-
-int numNodes = 10;
+vec3 spherePoint = new vec3(200,220,100);
+float sphereRad = 60;
+int numNodes = 15;
 
 void initScene(){
   for( int i = 0; i <strings; i++){
@@ -90,7 +89,13 @@ void update(float dt){
     if (pos.get(j)[i].y+radius > floor){
       vel.get(j)[i].y *= -.9;
       pos.get(j)[i].y = floor - radius;
+    } if(pos.get(j)[i].distanceTo(spherePoint) < radius+sphereRad){
+      print("Reached\n");
+    vel.get(j)[i] = pos.get(j)[i].minus(spherePoint).times(2);
+    pos.get(j)[i] = pos.get(j)[i].minus(spherePoint);
+   
     }
+      
   }
     }
   
@@ -128,13 +133,22 @@ update(1/(20*frameRate));
 
 
 };
-  fill(0,0,0);
+pushMatrix();
+translate(spherePoint.x,spherePoint.y,spherePoint.z);
+noStroke();
+  fill(230,90,230);
+sphere(sphereRad);
+popMatrix();
     for (int j = 0; j < strings; j++){
   for (int i = 0; i < numNodes-1; i++){
+      
     pushMatrix();
+    fill(0,0,0);
+    stroke(0,0,0);
     line(pos.get(j)[i].x,pos.get(j)[i].y, pos.get(j)[i+1].z,pos.get(j)[i+1].x,pos.get(j)[i+1].y,pos.get(j)[i+1].z);
     translate(pos.get(j)[i+1].x,pos.get(j)[i+1].y,pos.get(j)[i+1].z);
-    sphere(radius);
+    lights();
+    //sphere(radius);
     popMatrix();
   }
     }
